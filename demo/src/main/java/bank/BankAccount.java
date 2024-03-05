@@ -6,7 +6,7 @@ public class BankAccount {
         this.balance = startingBalance;
     }
     public boolean withdraw(int amount) {
-        if(balance >= amount) {
+        if(balance >= amount && amount >= 0) {
             balance -= amount;
             return true;
         }
