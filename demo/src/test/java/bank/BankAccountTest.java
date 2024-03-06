@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 
 public class BankAccountTest {
 
-    BankAccount bankAccount;
+    private BankAccount bankAccount;
+    private static final double EPSILON = 0.0001;
 
     @BeforeEach
     public void initialize() {
@@ -75,6 +76,29 @@ public class BankAccountTest {
 
         // The account's balance should not change
         assertEquals(100, bankAccount.getBalance());
+    }
+
+
+    @Test
+    public void payment_positiveArguments_correctValue() {
+        // Arguments for the function
+        double total = 10000;
+        double interest = 0.002;
+        int n = 12;
+
+        double payment = bankAccount.payment(total, interest, n);
+
+        // We invert the interest to every month's payment and calculate the total
+        // This value has to be the same as the initial amount of the loan
+        double res = 0;
+        double currentInterest = 1;
+        for(int i = 0; i < n; i++) {
+            currentInterest *= 1 + interest;
+            res += payment/currentInterest;
+        }
+
+        // Approximate value according to an epsilon
+        assert(Math.abs(total - res) <= EPSILON);
     }
 
 }
