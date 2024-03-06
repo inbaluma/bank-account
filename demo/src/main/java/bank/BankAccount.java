@@ -1,6 +1,7 @@
 package bank;
 
 public class BankAccount {
+    public static final int MAXIMUM_AMOUNT = 1000000000; // A billion units
     private int balance = 0;
     public BankAccount(int startingBalance) {
         this.balance = startingBalance;
@@ -13,9 +14,12 @@ public class BankAccount {
         return false;
     }
     public int deposit(int amount) {
-        if (amount <0)
+        if (amount < 0)
             throw new IllegalArgumentException("Amount cannot be negative");
-        balance += amount;
+        if (amount > MAXIMUM_AMOUNT || amount + balance > MAXIMUM_AMOUNT) {
+            throw new IllegalStateException("Balance cannot surpass maximum value of " + MAXIMUM_AMOUNT);
+        }
+            balance += amount;
         return balance;
     }
     public int getBalance() {
